@@ -5,9 +5,14 @@ on:
         branches:
             - master
 
+permissions:
+    contents: read
+
 jobs:
     test:
         runs-on: ubuntu-latest
+        env:
+            NODE_OPTIONS: "--max-old-space-size=4096"
 
         steps:
             - name: Checkout code
@@ -30,11 +35,17 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Lint code
-              run: npm run lint-fix
-
             - name: Run tests
               run: npm test
 
+            - name: Lint code
+              run: npm run lint-fix
+
             - name: Build project
               run: npm run build
+
+            - name: Upload project files
+              uses: actions/upload-artifact@v4
+              with:
+                name: next
+                path: .next
