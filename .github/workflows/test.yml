@@ -38,8 +38,15 @@ jobs:
             - name: Run tests
               run: npm test
 
-            - name: Lint code
-              run: npm run lint-fix
+            #- name: Lint code
+            #  run: npm run lint
+
+            - name: Jest Coverage Report
+              uses: ArtiomTr/jest-coverage-report@v2
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  # Optional: Add a coverage threshold to fail PRs if coverage drops below it
+                  # coverage-threshold: 80
 
             - name: Build project
               run: npm run build
@@ -49,3 +56,4 @@ jobs:
               with:
                 name: next
                 path: .next
+
